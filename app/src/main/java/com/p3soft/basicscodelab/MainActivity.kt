@@ -24,6 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.p3soft.basicscodelab.ui.theme.BasicsCodelabTheme
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.saveable.rememberSaveable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,11 +43,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Greetings(
     modifier: Modifier = Modifier,
-    names: List<String> = listOf("Programs", "Compose")
+    names: List<String> = List(1000) { "${it}" }
 ) {
-    Column(modifier = modifier.padding(vertical = 4.dp)) {
-        for (name in names)
+    LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
             Greeting(name = name)
+        }
     }
 } // private fun Greetings
 
@@ -57,7 +61,7 @@ fun MyApp(
     // Note that we use "by" keyword instead of =
     // This is a "property delegate" that saves us the trouble
     // of typing shouldShowOnboarding.value every time
-    var shouldShowOnboarding by remember { mutableStateOf(true) }
+    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
 
     Surface(modifier) {
         if (shouldShowOnboarding) OnboardingScreen(
@@ -69,7 +73,7 @@ fun MyApp(
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
     val extraPadding = if (expanded) 48.dp else 0.dp
 
     Surface(
@@ -120,17 +124,6 @@ fun OnboardingPreview() {
         OnboardingScreen(onContinueClicked = {}) // do nothing on click
     }
 }
-
-/*
-@Preview(showBackground = true, widthDp = 320)
-@Composable
-fun GreetingPreview() {
-    BasicsCodelabTheme {
-        MyApp()
-    }
-}
-
- */
 
 @Preview
 @Composable
