@@ -1,5 +1,6 @@
 package com.p3soft.basicscodelab
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -96,7 +97,7 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
                 .weight(1f)
                 .padding(bottom = extraPadding.coerceAtLeast(0.dp))) {
                 Text(text = "Greetings, ", modifier = Modifier)
-                Text(text = name, modifier = Modifier)
+                Text(text = name, modifier = Modifier, style = MaterialTheme.typography.headlineMedium)
             }
             ElevatedButton(
                 onClick = { expanded = !expanded }
@@ -141,5 +142,19 @@ fun OnboardingPreview() {
 fun MyAppPreview() {
     BasicsCodelabTheme {
         MyApp(Modifier.fillMaxSize())
+    }
+}
+
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "GreetingPreviewDark"
+)
+@Preview(showBackground = true, widthDp = 320)
+@Composable
+fun GreetingPreview() {
+    BasicsCodelabTheme {
+        Greetings()
     }
 }
