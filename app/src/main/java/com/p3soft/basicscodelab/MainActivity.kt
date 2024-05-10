@@ -82,7 +82,8 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
             stiffness = Spring.StiffnessLow,
-        )
+        ),
+        label = "",
     )
 
 
