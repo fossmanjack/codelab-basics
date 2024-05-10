@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
@@ -30,7 +31,18 @@ import androidx.compose.ui.unit.dp
 import com.p3soft.basicscodelab.ui.theme.BasicsCodelabTheme
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.material.icons.Icons.Filled
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +59,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun Greetings(
     modifier: Modifier = Modifier,
-    names: List<String> = List(1000) { "${it}" }
+    names: List<String> = List(100) { "${it}" }
 ) {
     LazyColumn(modifier = modifier.padding(vertical = 4.dp)) {
         items(items = names) { name ->
@@ -77,6 +89,7 @@ fun MyApp(
 
 @Composable
 private fun Greeting(name: String, modifier: Modifier = Modifier) {
+    /*
     var expanded by rememberSaveable { mutableStateOf(false) }
     val extraPadding by animateDpAsState(
         if(expanded) 48.dp else 0.dp,
@@ -86,7 +99,6 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
         ),
         label = "",
     )
-
 
     Surface(
         color = MaterialTheme.colorScheme.primary,
@@ -104,6 +116,63 @@ private fun Greeting(name: String, modifier: Modifier = Modifier) {
             ) {
                 Text(if (expanded) "Show less" else "Show more")
             }
+        }
+    }
+ */
+    Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+        ),
+        modifier = modifier.padding(vertical = 4.dp, horizontal = 8.dp),
+    ) {
+        CardContent(name)
+    }
+
+
+}
+
+@Composable
+private fun CardContent(name: String) {
+    var expanded by rememberSaveable { mutableStateOf(false) }
+
+    Row(
+        modifier = Modifier
+            .padding(12.dp)
+            .animateContentSize(
+                animationSpec = spring(
+                    dampingRatio = Spring.DampingRatioMediumBouncy,
+                    stiffness = Spring.StiffnessLow,
+                )
+            )
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(12.dp)
+        ) {
+            Text(text = stringResource(R.string.greeting))
+            Text(
+                text = name,
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                )
+            )
+            if(expanded) {
+                Text(
+                    text = stringResource(R.string.composem).repeat(4)
+                )
+            }
+        }
+        IconButton(onClick = { expanded = !expanded }) {
+            Icon(
+                imageVector = if(expanded) Filled.ExpandLess else Filled.ExpandMore,
+                contentDescription = if(expanded) {
+                    stringResource(R.string.show_less)
+                } else {
+                    stringResource(R.string.show_more)
+                },
+                modifier = Modifier,
+            )
         }
     }
 }

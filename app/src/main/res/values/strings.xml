@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Basics Codelab</string>
+    <string name="greeting">Greetings, </string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
+    <string name="welcome">Welcome to Basics Codelab!</string>
+    <string name="lets_go">Continue</string>
+    <string name="composem">Composem ipsum color sit lazy, padding theme elit, sed do bouncy. "</string>
 </resources>
